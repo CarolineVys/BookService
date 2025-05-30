@@ -1,0 +1,19 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      dotnet: latest
+  build:
+    commands:
+      - dotnet publish -o ./build_output ./BookService/BookService.csproj
+      - dotnet test ./BookService.Tests/BookService.Tests.csproj --logger trx --results-directory ./build_output/testresult
+artifacts:
+  files:
+    - '**/*'
+  base-directory: 'build_output'
+reports:
+  BookServiceTests:
+    file-format: VisualStudioTrx
+    files:
+      - '**/*'
+    base-directory: 'build_output/testresult'
